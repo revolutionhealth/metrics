@@ -1,0 +1,13 @@
+---
+production:
+  min_real_time_threshold: 1.0
+  single_line_output: true
+
+test:
+  min_real_time_threshold: 2.0
+  single_line_output: false
+    
+development:
+  min_real_time_threshold: 0.0
+  single_line_output: false
+  care_providers/search_controller: 0.0

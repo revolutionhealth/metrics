@@ -1,0 +1,70 @@
+== Introduction
+
+This gem provides a metrics collecting for controllers, database queries, 
+and specific blocks of code or methods.  It is designed to be light-weight 
+and have minimal impact on production builds while providing preformance 
+indicators of the running application.
+
+== Disclaimer
+
+
+This software is released to be used at your own risk.
+For feedback please drop us a line at rails-trunk [ at ] revolution DOT com.
+
+Using this plugin should not be your first step in application 
+optimization/scaling or even the second one. 
+
+== Example
+
+class SomeClassToTest
+  collect_metrics_on :my_method
+
+  def my_method(blah = nil)
+    true
+  end
+end
+
+for more samples and test cases see:  test/metrics_test.rb 
+
+=== Usage
+
+The metrics are written to:  logs/<environment>_metrics.log
+
+Configuration can be updated in: metrics/config/metrics.yml, you may
+copy this file to your RAILS_ROOT/config/metrics.yml and customize for 
+your application, the RAILS_ROOT will be checked first.
+
+
+
+=== Sample Output
+
+[ERROR] [2007-06-21 23:21:19] [trunk] [Metrics]|[76716]|[MysqlAdapter.log]|0.012727|args=["root localhost trunk_test", "CREATE DATABASE `trunk_test`"]
+
+[ERROR] [2007-06-21 23:19:56] [trunk] [Metrics]|[35158]|[Request to [Test::SomeControllerWithMetricsId]]|0.001373|action = index|path = /some?
+
+[ERROR] [2007-06-21 23:19:56] [trunk] [Metrics]|[33676]|[SomeClassToUseModuleMixin.another_method]|0.000020|args=["also"]
+
+=== Controlling Output
+
+By setting the constant METRICS_LOGGER in your <RAILS_ROOT>/config/environment.rb to either a specific Logger or Log4r instance, otherwise the RAILS_DEFAULT_LOGGER will be used.
+
+
+
+
+== Installation
+
+As plugin: 
+script/plugin install 
+svn://rubyforge.org/var/svn/metrics/trunk/vendor/plugins/metrics
+
+
+== License
+
+metrics is released under the MIT license.
+
+
+== Support
+
+The plugin RubyForge page is http://rubyforge.org/projects/metrics
+
+
