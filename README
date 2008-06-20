@@ -53,10 +53,11 @@ By setting the constant METRICS_LOGGER in your <RAILS_ROOT>/config/environment.r
 
 == Installation
 
-As plugin: 
-script/plugin install 
-svn://rubyforge.org/var/svn/metrics/trunk/vendor/plugins/metrics
+sudo gem install revolutionhealth-metrics -s http://gems.github.com
 
+== Source
+
+http://github.com/revolutionhealth/metrics/tree/master
 
 == License
 
