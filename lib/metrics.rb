@@ -12,7 +12,7 @@ if not defined?(METRICS_LOGGER)
     METRICS_LOGGER = Logger.new(STDOUT)
   end
 end
-require 'metrics/logger'
+require 'metrics/metric_logger'
 
 module Metrics
   extend self
@@ -20,7 +20,7 @@ module Metrics
   def collect_metrics(label = nil, *args)
     reset_metrics_id = false
     collector = nil
-    if Metrics::Logger.enabled?
+    if Metrics::MetricLogger.enabled?
       @@_metrics_id ||= nil
       if @@_metrics_id.nil?
         reset_metrics_id = true
@@ -32,7 +32,7 @@ module Metrics
     
     result = yield
 
-    log_metrics(collector.end_metric(label || metric_label), args) if Metrics::Logger.enabled?
+    log_metrics(collector.end_metric(label || metric_label), args) if Metrics::MetricLogger.enabled?
     @@_metrics_id = nil if reset_metrics_id
     result
   end
@@ -52,7 +52,7 @@ module Metrics
   
   private
   def begin_metric()
-    if Metrics::Logger.enabled?
+    if Metrics::MetricLogger.enabled?
       @@_metrics_id = rand(99999)
       @collector = Metrics::Collector.new
       @collector.begin_metric() if @collector != nil
@@ -60,7 +60,7 @@ module Metrics
   end
   
   def end_metric()
-    if Metrics::Logger.enabled? and @collector != nil
+    if Metrics::MetricLogger.enabled? and @collector != nil
       result = @collector.end_metric(metric_label) 
       log_metrics(result)
     end
@@ -84,14 +84,14 @@ module Metrics
         output += delimiter + real_time(result).strip
         output += delimiter + controller_args if respond_to?(:controller_name)
         output += delimiter + "args=#{args[0].inspect}" if (args != nil) and (args.size > 0)
-        Metrics::Logger.log(output)
+        Metrics::MetricLogger.log(output)
       else
-        Metrics::Logger.log("#{METRICS_LABEL} #{result.label}")
-        Metrics::Logger.log("#{METRICS_LABEL} Metrics Id=#{@@_metrics_id}") if Metrics::Config[:metrics_tracking_id]
-        Metrics::Logger.log("#{METRICS_LABEL} args=#{args[0].inspect}") if (args != nil) and (args.size > 0)
-        Metrics::Logger.log("#{METRICS_LABEL} #{METRICS_CAPTION}")
+        Metrics::MetricLogger.log("#{METRICS_LABEL} #{result.label}")
+        Metrics::MetricLogger.log("#{METRICS_LABEL} Metrics Id=#{@@_metrics_id}") if Metrics::Config[:metrics_tracking_id]
+        Metrics::MetricLogger.log("#{METRICS_LABEL} args=#{args[0].inspect}") if (args != nil) and (args.size > 0)
+        Metrics::MetricLogger.log("#{METRICS_LABEL} #{METRICS_CAPTION}")
         result_str = result.to_s.delete("\n")
-        Metrics::Logger.log("#{METRICS_LABEL} #{result_str}")
+        Metrics::MetricLogger.log("#{METRICS_LABEL} #{result_str}")
       end
     end
   end

@@ -1,6 +1,6 @@
 
 module Metrics
-  module Logger
+  module MetricLogger
     extend self
     
     def enabled?

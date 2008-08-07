@@ -4,7 +4,7 @@ require 'rubygems/specification'
 require 'date'
 
 GEM = "metrics"
-GEM_VERSION = "0.0.9"
+GEM_VERSION = "0.0.10"
 AUTHOR = "Revolution Health"
 EMAIL = "rails-trunk@revolutionhealth.com"
 HOMEPAGE = %q{http://github.com/revolutionhealth/metrics}
